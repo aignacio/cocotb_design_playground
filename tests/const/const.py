@@ -4,7 +4,7 @@
 # License           : MIT license <Check LICENSE>
 # Author            : Anderson Ignacio da Silva (aignacio) <anderson@aignacio.com>
 # Date              : 12.07.2023
-# Last Modified Date: 04.11.2023
+# Last Modified Date: 23.08.2024
 import os
 import glob
 
@@ -12,7 +12,6 @@ import glob
 class cfg:
     RST_CYCLES = 3
     CLK_100MHz = (10, "ns")
-    TIMEOUT_TEST = (CLK_100MHz[0] * 200, "ns")
     TIMEOUT_TEST = (CLK_100MHz[0] * 200, "ns")
 
     TOPLEVEL = str(os.getenv("DUT"))
@@ -23,8 +22,8 @@ class cfg:
     RTL_DIR = os.path.join(TESTS_DIR, "../../rtl")
 
     VERILOG_SOURCES = []  # The sequence below is important...
-    VERILOG_SOURCES = VERILOG_SOURCES + glob.glob(f"{RTL_DIR}/*.sv", recursive=True)
     VERILOG_SOURCES = VERILOG_SOURCES + glob.glob(f"{RTL_DIR}/*.v", recursive=True)
+    VERILOG_SOURCES = VERILOG_SOURCES + glob.glob(f"{RTL_DIR}/*.sv", recursive=True)
 
     EXTRA_ENV = {}
     EXTRA_ENV["COCOTB_HDL_TIMEPRECISION"] = os.getenv("TIMEPREC")
@@ -38,8 +37,7 @@ class cfg:
             "--coverage-line",
             "--coverage-toggle",
             "--trace-structs",
-            "--Wno-UNOPTFLAT",
-            "--Wno-REDEFMACRO",
         ]
+        PLUS_ARGS = ["--trace"]
     else:
         EXTRA_ARGS = []

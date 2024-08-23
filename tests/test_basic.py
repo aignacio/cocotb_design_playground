@@ -4,7 +4,7 @@
 # License           : MIT license <Check LICENSE>
 # Author            : Anderson Ignacio da Silva (aignacio) <anderson@aignacio.com>
 # Date              : 12.07.2023
-# Last Modified Date: 04.11.2023
+# Last Modified Date: 23.08.2024
 import random
 import cocotb
 import os
@@ -23,9 +23,9 @@ from cocotb.result import TestFailure
 
 async def setup_dut(dut, cycles):
     cocotb.start_soon(Clock(dut.clk, *cfg.CLK_100MHz).start())
-    dut.arst.value = 0
-    await ClockCycles(dut.clk, cycles)
     dut.arst.value = 1
+    await ClockCycles(dut.clk, cycles)
+    dut.arst.value = 0
 
 
 @cocotb.test()
@@ -39,11 +39,12 @@ def test_basic():
 
     Test ID: 1
     """
-    module = os.path.splitext(os.path.basename(__file__))[0]
+
+    test_name = os.path.splitext(os.path.basename(__file__))[0]
+
     SIM_BUILD = os.path.join(
-        cfg.TESTS_DIR, f"../run_dir/sim_build_{cfg.SIMULATOR}_{module}"
+        cfg.TESTS_DIR, f"../../run_dir/sim_build_{cfg.SIMULATOR}_{test_name}"
     )
-    extra_args_sim = cfg.EXTRA_ARGS
 
     run(
         python_search=[cfg.TESTS_DIR],
@@ -51,8 +52,9 @@ def test_basic():
         verilog_sources=cfg.VERILOG_SOURCES,
         toplevel=cfg.TOPLEVEL,
         timescale=cfg.TIMESCALE,
-        module=module,
+        module=test_name,
         sim_build=SIM_BUILD,
-        extra_args=extra_args_sim,
+        extra_args=cfg.EXTRA_ARGS,
+        plus_args=cfg.PLUS_ARGS,
         waves=1,
     )
