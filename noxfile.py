@@ -10,7 +10,7 @@ import nox
 import os
 
 
-TOP_MODULE = "jtag_wrapper"
+TOP_MODULE = "dut"
 SRC_DIR = "rtl"
 INCLUDE_DIR = "rtl/include"
 SLANG_CMD = "slang"
