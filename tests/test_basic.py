@@ -5,20 +5,18 @@
 # Author            : Anderson Ignacio da Silva (aignacio) <anderson@aignacio.com>
 # Date              : 12.07.2023
 # Last Modified Date: 23.08.2024
-import random
-import cocotb
-import os
 import logging
-import pytest
-
+import os
+import random
 from random import randrange
-from const.const import cfg
-from cocotb_test.simulator import run
-from cocotb.triggers import ClockCycles
+
+import cocotb
+import pytest
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge
 from cocotb.regression import TestFactory
-from cocotb.result import TestFailure
+from cocotb.triggers import ClockCycles, RisingEdge
+from cocotb_test.simulator import run
+from const.const import cfg
 
 
 async def setup_dut(dut, cycles):
